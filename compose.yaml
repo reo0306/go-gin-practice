@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  go-gin:
+    container_name: go_gin
+    build:
+      context: ./go
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - 8080:8080
+    tty: true
+    volumes:
+      - .:/app:cached
+    working_dir: /app
