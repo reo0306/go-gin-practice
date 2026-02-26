@@ -3,7 +3,7 @@ package models
 type Item struct {
 	ID          uint
 	Name        string
-	Prince      uint
+	Price       uint
 	Description string
 	SoldOut     bool
 }
