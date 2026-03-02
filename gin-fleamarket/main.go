@@ -3,7 +3,8 @@ package main
 import (
 	"gin-fleamarket/controllers"
 	"gin-fleamarket/infra"
-	"gin-fleamarket/models"
+
+	//"gin-fleamarket/models"
 	"gin-fleamarket/repositories"
 	"gin-fleamarket/services"
 
@@ -12,15 +13,17 @@ import (
 
 func main() {
 	infra.Initialize()
+	db := infra.SetupDB()
 
-	items := []models.Item{
-		{ID: 1, Name: "T-shirt", Price: 1000, Description: "A nice T-shirt", SoldOut: false},
-		{ID: 2, Name: "Jeans", Price: 2000, Description: "A pair of jeans", SoldOut: true},
-		{ID: 3, Name: "Sneakers", Price: 3000, Description: "A pair of sneakers", SoldOut: true},
-	}
+	//items := []models.Item{
+	//{ID: 1, Name: "T-shirt", Price: 1000, Description: "A nice T-shirt", SoldOut: false},
+	//{ID: 2, Name: "Jeans", Price: 2000, Description: "A pair of jeans", SoldOut: true},
+	//{ID: 3, Name: "Sneakers", Price: 3000, Description: "A pair of sneakers", SoldOut: true},
+	//}
 
-	itemReposiory := repositories.NewItemMemoryRepository(items)
-	itemService := services.NewItemService(itemReposiory)
+	//itemReposiory := repositories.NewItemMemoryRepository(items)
+	itemRepository := repositories.NewItemRepository(db)
+	itemService := services.NewItemService(itemRepository)
 	itemController := controllers.NewItemController(itemService)
 
 	router := gin.Default()
