@@ -9,6 +9,7 @@ import (
 	"gin-fleamarket/repositories"
 	"gin-fleamarket/services"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,14 +26,14 @@ func main() {
 	authController := controllers.NewAuthController(authService)
 
 	router := gin.Default()
-	itemRouter := router.Group("/items")
+	router.Use(cors.Default())
 	itemRouterWithAuth := router.Group("/items", middlewares.AuthMiddleware(authService))
 
-	itemRouter.GET("/items", itemController.FindAll)
-	itemRouter.GET("/items/:id", itemController.FindByID)
+	itemRouterWithAuth.GET("", itemController.FindAll)
+	itemRouterWithAuth.GET("/:id", itemController.FindByID)
 	itemRouterWithAuth.POST("", itemController.Create)
-	itemRouter.PUT("/items/:id", itemController.Update)
-	itemRouter.DELETE("/items/:id", itemController.Delete)
+	itemRouterWithAuth.PUT("/:id", itemController.Update)
+	itemRouterWithAuth.DELETE("/:id", itemController.Delete)
 
 	authRouter := router.Group("/auth")
 	authRouter.POST("/signup", authController.Signup)
