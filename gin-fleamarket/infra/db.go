@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -27,10 +28,10 @@ func SetupDB() *gorm.DB {
 	)
 
 	if env == "prod" {
-		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 		log.Println("Setup postgresql database")
 	} else {
-		db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+		db, err = gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 		log.Println("Setup sqlite database")
 	}
 
